@@ -1,3 +1,4 @@
+// Chapter 2 stuff:
 var ch2 = require('./chapter2') ;
 ch2.default() ;
 ch2.axisDemo() ;
@@ -8,9 +9,8 @@ ch2.renderDailyShowGuestTable() ;
 
 // Chapter 3 stuff:
 import 'babel-core/polyfill';
-
 import {UlamSpiral, ScalesDemo, GeoDemo} from './chapter3';
-
-// new UlamSpiral();
+new UlamSpiral();
 new ScalesDemo();
-//new GeoDemo();
+new GeoDemo();
+
