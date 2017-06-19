@@ -28,11 +28,12 @@ import {Easingchart, Spirograph, PrisonPopulationChart, InteractivePrisonPopulat
 new SelectableInteractivePrisonChart('data/uk_prison_data_1900-2015.csv');
     */
 
+/*
 // Chapter 5 stuff
 
 window.d3 = undefined;
 
-import PoliticalDonorChart from './chapter5';
+ import PoliticalDonorChart from './chapter5';
 // new PoliticalDonorChart('histogram');
 // new PoliticalDonorChart('pie', 'The Rt Hon Edward Miliband MP');
 // new PoliticalDonorChart('streamgraph');
@@ -43,3 +44,9 @@ import PoliticalDonorChart from './chapter5';
 // new PoliticalDonorChart('partition', 'Miliband');
 // new PoliticalDonorChart('pack');
  new PoliticalDonorChart('treemap', 'Miliband');
+
+*/
+import VoronoiAirports from './voronoi-airports';
+
+new VoronoiAirports('41.961571, -87.959659');
+

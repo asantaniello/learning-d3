@@ -1,4 +1,4 @@
-let d3 = require('d3');
+var d3 = require('d3');
 
 export function uniques(data, name) {
   let uniques = [];
@@ -146,4 +146,62 @@ export function makeTree(data, filterByDonor, name1, name2) {
   });
 
   return tree;
+}
+
+/**
+ * Returns whether a point is inside a polygon.
+ * The following function is taken from https://github.com/substack/point-in-polygon/
+ *
+ * Based on a ray-casting algorithm from http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+ *
+ * @param  {Array}                 point      An array with x and y coordinates of a point. Can also be lon/lat.
+ * @param  {Array<Array<Number>>}  polygon    The polygon as an array of arrays containing x and y coordinates.
+ * @return {Boolean}                          Whether the point is inside the polygon or not.
+ */
+export function isInside(point, polygon) {
+  let x = Number(point[0]), y = Number(point[1]);
+
+  let inside = false;
+  for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+      let xi = polygon[i][0], yi = polygon[i][1];
+      let xj = polygon[j][0], yj = polygon[j][1];
+
+      let intersect = ((yi > y) != (yj > y))
+          && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+      if (intersect) inside = !inside;
+  }
+
+  return inside;
+}
+
+/**
+ * Find the nearest point using Voronoi geom
+ * @param  {String}               location Comma-separated lat/lng string
+ * @param  {Array<Array<Number>>} points   An array of arrays containing points
+ * @return {Object|Void}                   The nearest point to location. Throws Error if point not found.
+ */
+export function nearestVoronoi(location, points, returnEquirectangular = true) {
+  let nearest = {};
+  let projection = d3.geo.equirectangular();
+
+  location = location.split(/,\s?/);
+
+  let voronoi = d3.geom.voronoi(
+    points.map((point) => {
+      let projected = returnEquirectangular ? projection([point.longitude, point.latitude]) : [point.longitude, point.latitude];
+      return [projected[0], projected[1], point];
+    }))
+    .filter((d) => d);
+
+  voronoi.forEach((region) => {
+    if (isInside(returnEquirectangular ? projection([location[1], location[0]]) : [location[1], location[0]], region)) {
+      nearest = {
+        point: region.point[2],
+        region: region
+      };
+    }
+  });
+
+  if (nearest === {}) throw new Error('Nearest not findable');
+  else return nearest;
 }
