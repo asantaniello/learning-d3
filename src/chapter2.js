@@ -1,9 +1,11 @@
+var exports = module.exports = {} ;
+
 import TableBuilder from './table-builder';
 import {BasicChart} from './basic-chart';
 
 let d3 = require('d3');
 
-export default function() {
+exports.default = function() {
   let chart = new BasicChart();
   let svg = chart.chart;
 
@@ -42,7 +44,7 @@ export default function() {
 
 }
 
-export function axisDemo(){
+exports.axisDemo = function(){
   let chart = new BasicChart();
   let svg = chart.chart;
   require('./index.css');
@@ -73,7 +75,7 @@ export function axisDemo(){
   });
 }
 
-export function FunkyD3PathGenerators() {
+exports.FunkyD3PathGenerators = function() {
   let chart = new BasicChart();
   let svg = chart.chart;
 
@@ -215,7 +217,7 @@ export function FunkyD3PathGenerators() {
 
 }
 
-export function myWeirdSVGDrawing() {
+exports.myWeirdSVGDrawing = function() {
   let svg = new BasicChart().svg;
 
   svg.append('text')
@@ -262,7 +264,7 @@ export function myWeirdSVGDrawing() {
   });
 }
 
-export function renderDailyShowGuestTable() {
+exports.renderDailyShowGuestTable = function() {
   let url =
       'https://cdn.rawgit.com/fivethirtyeight/data/master/daily-show-guests/daily_show_guests.csv';
 
